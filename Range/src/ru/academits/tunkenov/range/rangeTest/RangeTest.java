@@ -1,9 +1,11 @@
-package ru.academits.tunkenov.range;
+package ru.academits.tunkenov.range.rangeTest;
+
+import ru.academits.tunkenov.range.Range;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class DistanceAndAffiliation {
+public class RangeTest {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -42,16 +44,16 @@ public class DistanceAndAffiliation {
 
         System.out.println("Диапазон от начального числа до числа, которое мы проверили = " + rangeToNumber);
 
-        Range range1 = new Range(3, 6);
-        Range range2 = new Range(4, 10);
+        Range range1 = new Range(1, 10);
+        Range range2 = new Range(1, 10);
 
-        double[] crossingInterval = range1.getCrossingInterval(range2);
-        System.out.println("Интервал-пересечения = " + Arrays.toString(crossingInterval));
+        Range crossingInterval = range1.getIntersection(range2);
+        System.out.println("Интервал-пересечения = " + crossingInterval);
 
-        Range[] combiningTwoIntervals = range1.combiningTwoIntervals(range2);
-        System.out.println("Длина объединения двух интервалов = " + Arrays.toString(combiningTwoIntervals));
+        Range[] combiningTwoIntervals = range1.getUnion(range2);
+        System.out.println("Массив объединения двух диапозонов = " + Arrays.toString(combiningTwoIntervals));
 
-        Range[] differenceOfTwoIntervals = range1.getDifferenceOfTwoIntervals(range2);
-        System.out.println("Длина разности двух интервалов = " + Arrays.toString(differenceOfTwoIntervals));
+        Range[] differenceOfTwoIntervals = range1.getDifference(range2);
+        System.out.println("Массив разности двух диапозонов = " + Arrays.toString(differenceOfTwoIntervals));
     }
 }

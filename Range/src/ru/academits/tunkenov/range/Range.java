@@ -1,12 +1,12 @@
 package ru.academits.tunkenov.range;
 
-class Range {
+public class Range {
     private double from;
     private double to;
 
     @Override
     public String toString() {
-        return from + ", " + to;
+        return "(" + from + "; " + to + ")";
     }
 
     public Range(double from, double to) {
@@ -38,81 +38,36 @@ class Range {
         return from <= number && to >= number;
     }
 
-    public double[] getCrossingInterval(Range newRange) {
-        double newTo = newRange.getTo();
-        double newFrom = newRange.getFrom();
-
-        if (from >= newTo || to <= newFrom) {
+    public Range getIntersection(Range range) {
+        if (from >= range.to || to <= range.from) {
             return null;
-        } else if (newFrom <= from && newTo > from && newTo <= to) {
-            return new double[]{from, newTo};
-        } else if (newFrom >= from && newFrom <= to && newTo >= to) {
-            return new double[]{newFrom, to};
-        } else if (newFrom <= from && newTo >= to) {
-            return new double[]{from, to};
-        } else {
-            return new double[]{newFrom, newTo};
+        } else if (from == range.from && to == range.to) {
+            return new Range(range.from, range.to);
         }
+
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
-    public Range[] combiningTwoIntervals(Range newRange) {
-        double newTo = newRange.getTo();
-        double newFrom = newRange.getFrom();
-
-        if (from > newTo || to < newFrom) {
-            Range[] arrayRange = new Range[2];
-            arrayRange[0] = new Range(from, to);
-            arrayRange[1] = new Range(newFrom, newTo);
-            return arrayRange;
-        } else if (newFrom <= from && newTo > from && newTo <= to) {
-            Range[] arrayRange = new Range[1];
-            arrayRange[0] = new Range(from, newTo);
-            return arrayRange;
-        } else if (newFrom >= from && newFrom <= to && newTo >= to) {
-            Range[] arrayRange = new Range[1];
-            arrayRange[0] = new Range(newFrom, to);
-            return arrayRange;
-        } else if (newFrom <= from && newTo >= to) {
-            Range[] arrayRange = new Range[1];
-            arrayRange[0] = new Range(newFrom, newTo);
-            return arrayRange;
-        } else {
-            Range[] arrayRange = new Range[1];
-            arrayRange[0] = new Range(from, to);
-            return arrayRange;
+    public Range[] getUnion(Range range) {
+        if (from > range.to || to < range.from) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
+        } else if (range.from == from && range.to == to) {
+            return new Range[]{new Range(from, to)};
         }
+
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
-    public Range[] getDifferenceOfTwoIntervals(Range newRange) {
-        double newTo = newRange.getTo();
-        double newFrom = newRange.getFrom();
-
-        if (from == newFrom && to == newTo) {
-            return null;
-        } else if (newTo <= from || to <= newFrom) {
-            Range[] arrayRange = new Range[2];
-            arrayRange[0] = new Range(from, to);
-            arrayRange[1] = new Range(newFrom, newTo);
-            return arrayRange;
-        } else if (newFrom < from && newTo <= from && newTo <= to) {
-            Range[] arrayRange = new Range[1];
-            arrayRange[0] = new Range(newFrom, from);
-            return arrayRange;
-        } else if (newFrom >= from && newFrom <= to && newTo > to) {
-            Range[] arrayRange = new Range[1];
-            arrayRange[0] = new Range(to, newTo);
-            return arrayRange;
-        } else if (newFrom > from && newTo > to) {
-            Range[] arrayRange = new Range[2];
-            arrayRange[0] = new Range(newFrom, from);
-            arrayRange[1] = new Range(to, newTo);
-            return arrayRange;
-        } else {
-            Range[] arrayRange = new Range[2];
-            arrayRange[0] = new Range(from, newFrom);
-            arrayRange[1] = new Range(newTo, to);
-            return arrayRange;
+    public Range[] getDifference(Range range) {
+        if (from >= range.from && to <= range.to) {
+            return new Range[0];
+        } else if (from < range.from && to <= range.to) {
+            return new Range[]{new Range(from, range.from)};
+        } else if (from > range.from && to > range.to) {
+            return new Range[]{new Range(range.to, to)};
         }
+
+        return new Range[]{new Range(from, range.from), new Range(range.to, to)};
     }
 }
 

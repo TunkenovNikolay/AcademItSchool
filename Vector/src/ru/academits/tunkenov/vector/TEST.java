@@ -7,6 +7,8 @@ public class TEST {
         double[] array = {30.1, 5.2, 5.6};
         Vector vector1 = new Vector(6);
         System.out.println(Arrays.toString(new Vector[]{vector1}));
+        System.out.println(vector1.toString());
+        System.out.println(vector1.getSize());
         //int[] array = new int[7];
         //System.out.println(Arrays.toString(array));
     }

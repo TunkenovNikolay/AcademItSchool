@@ -47,6 +47,6 @@ public class Vector {
 
     @Override
     public String toString() {
-        return "Vector{" + "array=" + Arrays.toString(array) + '}';
+        return Arrays.toString(array);
     }
 }

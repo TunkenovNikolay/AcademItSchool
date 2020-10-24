@@ -48,10 +48,7 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Rectangle {" +
-                "side1 = " + side1 +
-                ", side2 = " + side2 +
-                '}';
+        return "Rectangle {" + "side1 = " + side1 + ", side2 = " + side2 + "}";
     }
 
     @Override

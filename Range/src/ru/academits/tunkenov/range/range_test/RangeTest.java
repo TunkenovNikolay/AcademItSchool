@@ -1,4 +1,4 @@
-package ru.academits.tunkenov.range.rangeTest;
+package ru.academits.tunkenov.range.range_test;
 
 import ru.academits.tunkenov.range.Range;
 
@@ -44,8 +44,8 @@ public class RangeTest {
 
         System.out.println("Диапазон от начального числа до числа, которое мы проверили = " + rangeToNumber);
 
-        Range range1 = new Range(1, 10);
-        Range range2 = new Range(1, 10);
+        Range range1 = new Range(1, 3);
+        Range range2 = new Range(5, 7);
 
         Range crossingInterval = range1.getIntersection(range2);
         System.out.println("Интервал-пересечения = " + crossingInterval);

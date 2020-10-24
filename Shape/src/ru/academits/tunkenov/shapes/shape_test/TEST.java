@@ -1,4 +1,8 @@
-package ru.academits.tunkenov.shapes;
+package ru.academits.tunkenov.shapes.shape_test;
+
+import ru.academits.tunkenov.shapes.*;
+
+import java.util.Arrays;
 
 public class TEST {
     public static void main(String[] args) {
@@ -11,5 +15,6 @@ public class TEST {
         Square square2 = new Square(10);
         Square square3 = new Square(12);
         System.out.println(square2.hashCode() + " | " + square3.hashCode());
+        System.out.println(square2.equals(square3));
     }
 }

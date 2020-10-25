@@ -60,7 +60,7 @@ public class Vector {
         return vector.length;
     }
 
-    public void getSum(Vector other) {
+    public void sum(Vector other) {
         double[] array = Arrays.copyOf(vector, Math.max(vector.length, other.getSize()));
         for (int i = 0; i <= array.length - 1; i++) {
             array[i] += other.vector[i];
@@ -69,7 +69,7 @@ public class Vector {
         vector = array;
     }
 
-    public void getSubtraction(Vector other) {
+    public void subtraction(Vector other) {
         double[] array = Arrays.copyOf(vector, Math.max(vector.length, other.getSize()));
         for (int i = 0; i <= array.length - 1; i++) {
             array[i] -= other.vector[i];
@@ -78,7 +78,7 @@ public class Vector {
         vector = array;
     }
 
-    public void getScalarMultiplication(int scalar) {
+    public void multiplicationOnScalar(int scalar) {
         for (int i = 0; i <= vector.length - 1; i++) {
             vector[i] *= scalar;
         }
@@ -107,7 +107,7 @@ public class Vector {
         return vector[index];
     }
 
-    public void setNewComponentToIndex(int index, double component) {
+    public void setComponentToIndex(int index, double component) {
         if (index < 0) {
             throw new IllegalArgumentException("index must be >= 0");
         }
@@ -124,7 +124,7 @@ public class Vector {
         return new Vector(array);
     }
 
-    public static Vector getSubtraction(Vector vector1, Vector vector2) {
+    public static Vector subtraction(Vector vector1, Vector vector2) {
         double[] array = Arrays.copyOf(vector1.vector, Math.max(vector1.getSize(), vector2.getSize()));
         for (int i = 0; i <= array.length - 1; i++) {
             array[i] -= vector2.vector[i];

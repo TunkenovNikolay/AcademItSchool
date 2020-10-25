@@ -22,13 +22,13 @@ public class TEST {
 
         System.out.println("Разммерность vector4 = " + vector4.getSize());
 
-        vector3.getSum(vector4);
+        vector3.sum(vector4);
         System.out.println("vector3 после сложения с vector4 = " + vector3);
 
-        vector1.getSubtraction(vector4);
+        vector1.subtraction(vector4);
         System.out.println("vector1 после вычитания vector4 = " + vector1);
 
-        vector1.getScalarMultiplication(-5);
+        vector1.multiplicationOnScalar(-5);
         System.out.println("vector1 после скалярного умножения = " + vector1);
 
         vector1.reversVector();
@@ -38,13 +38,13 @@ public class TEST {
 
         System.out.println("4й компонент vector1 = " + vector1.getComponentToIndex(4));
 
-        vector1.setNewComponentToIndex(4, 5);
+        vector1.setComponentToIndex(4, 5);
         System.out.println("4й компонент vector1 после изменения = " + vector1.getComponentToIndex(4));
 
         Vector vector5 = Vector.getSumTwoVectors(vector1, vector4);
         System.out.println("vector5" + vector5);
 
-        Vector vector6 = Vector.getSubtraction(vector1, vector4);
+        Vector vector6 = Vector.subtraction(vector1, vector4);
         System.out.println("vector6" + vector6);
 
         System.out.println("Скалярное умножение vector1 * vector4 = " + Vector.getVectorsScalarMultiplication(vector1, vector4));

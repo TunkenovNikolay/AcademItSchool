@@ -1,30 +1,20 @@
 package ru.academits.tunkenov.shapes;
 
-import java.util.Objects;
-
 public class Rectangle implements Shape {
-    private double side1;
-    private double side2;
+    private double width;
+    private double height;
 
-    public Rectangle(double side1, double side2) {
-        this.side1 = side1;
-        this.side2 = side2;
+    public Rectangle(double width, double height) {
+        this.width = Math.abs(width);
+        this.height = Math.abs(height);
     }
 
-    public double getSide1() {
-        return side1;
+    public void setWidth(double width) {
+        this.width = width;
     }
 
-    public void setSide1(double side1) {
-        this.side1 = side1;
-    }
-
-    public double getSide2() {
-        return side2;
-    }
-
-    public void setSide2(double side2) {
-        this.side2 = side2;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     @Override
@@ -37,37 +27,40 @@ public class Rectangle implements Shape {
         }
 
         Rectangle rectangle = (Rectangle) o;
-        return Double.compare(rectangle.side1, side1) == 0 &&
-                Double.compare(rectangle.side2, side2) == 0;
+
+        return rectangle.width == width &&
+                rectangle.height == height;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(side1, side2);
+        final int prime = 32;
+        int hash = 1;
+        return prime * hash + Double.hashCode(width) + prime * hash + Double.hashCode(height);
     }
 
     @Override
     public String toString() {
-        return "Rectangle {" + "side1 = " + side1 + ", side2 = " + side2 + "}";
+        return "Rectangle {side1 = " + width + ", side2 = " + height + "}";
     }
 
     @Override
     public double getWidth() {
-        return Math.min(side1, side2);
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return Math.max(side1, side2);
+        return height;
     }
 
     @Override
     public double getArea() {
-        return side1 * side2;
+        return width * height;
     }
 
     @Override
     public double getPerimeter() {
-        return (side1 + side2) * 2;
+        return (width + height) * 2;
     }
 }

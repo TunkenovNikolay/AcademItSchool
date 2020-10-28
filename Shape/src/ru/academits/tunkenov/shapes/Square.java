@@ -1,12 +1,10 @@
 package ru.academits.tunkenov.shapes;
 
-import java.util.Objects;
-
 public class Square implements Shape {
     private double sideLength;
 
     public Square(double sideLength) {
-        this.sideLength = sideLength;
+        this.sideLength = Math.abs(sideLength);
     }
 
     public double getSideLength() {
@@ -27,17 +25,20 @@ public class Square implements Shape {
         }
 
         Square square = (Square) o;
-        return Double.compare(square.sideLength, sideLength) == 0;
+
+        return square.sideLength == sideLength;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sideLength);
+        final int prime = 32;
+        int hash = 1;
+        return prime * hash + Double.hashCode(sideLength);
     }
 
     @Override
     public String toString() {
-        return "Square {" + "sideLength = " + sideLength + "}";
+        return "Square {sideLength = " + sideLength + "}";
     }
 
     @Override

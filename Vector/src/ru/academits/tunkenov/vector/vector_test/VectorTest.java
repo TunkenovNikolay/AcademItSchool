@@ -2,7 +2,7 @@ package ru.academits.tunkenov.vector.vector_test;
 
 import ru.academits.tunkenov.vector.Vector;
 
-public class TEST {
+public class VectorTest {
     public static void main(String[] args) {
         Vector vector1 = new Vector(5);
         System.out.println("vector1" + vector1);

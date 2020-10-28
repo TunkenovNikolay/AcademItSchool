@@ -1,7 +1,5 @@
 package ru.academits.tunkenov.shapes;
 
-import java.util.Objects;
-
 public class Triangle implements Shape {
     private double x1;
     private double y1;
@@ -77,44 +75,57 @@ public class Triangle implements Shape {
         }
 
         Triangle triangle = (Triangle) o;
-        return Double.compare(triangle.x1, x1) == 0 &&
-                Double.compare(triangle.y1, y1) == 0 &&
-                Double.compare(triangle.x2, x2) == 0 &&
-                Double.compare(triangle.y2, y2) == 0 &&
-                Double.compare(triangle.x3, x3) == 0 &&
-                Double.compare(triangle.y3, y3) == 0;
+
+        return triangle.x1 == x1 &&
+                triangle.y1 == y1 &&
+                triangle.x2 == x2 &&
+                triangle.y2 == y2 &&
+                triangle.x3 == x3 &&
+                triangle.y3 == y3;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x1, y1, x2, y2, x3, y3);
+        final int prime = 32;
+        int hash = 1;
+        return prime * hash + Double.hashCode(x1) + prime * hash + Double.hashCode(y1)
+                + prime * hash + Double.hashCode(x2) + prime * hash + Double.hashCode(y2)
+                + prime * hash + Double.hashCode(x3) + prime * hash + Double.hashCode(y3);
     }
 
     @Override
     public String toString() {
-        return "Triangle {" + "x1 = " + x1 + ", y1 = " + y1 + ", x2 = " + x2 +
+        return "Triangle {x1 = " + x1 + ", y1 = " + y1 + ", x2 = " + x2 +
                 ", y2 = " + y2 + ", x3 = " + x3 + ", y3 = " + y3 + "}";
     }
 
     @Override
     public double getWidth() {
-        return Math.max(Math.max(x1, x2), x3) - Math.min(Math.min(x1, x2), x3);
+        return Math.abs(Math.max(Math.max(x1, x2), x3) - Math.min(Math.min(x1, x2), x3));
     }
 
     @Override
     public double getHeight() {
-        return Math.max(Math.max(y1, y2), y3) - Math.min(Math.min(y1, y2), y3);
+        return Math.abs(Math.max(Math.max(y1, y2), y3) - Math.min(Math.min(y1, y2), y3));
+    }
+
+    private double getSide(double x1, double x2, double y1, double y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     @Override
     public double getArea() {
-        return getWidth() * getHeight() / 2;
+        double halfPerimeter = getPerimeter() / 2;
+
+        double side1 = getSide(x1, x2, y1, y2);
+        double side2 = getSide(x2, x3, y2, y3);
+        double side3 = getSide(x3, x1, y3, y1);
+
+        return Math.sqrt(halfPerimeter * (halfPerimeter - side1) * (halfPerimeter * side2) * (halfPerimeter * side3));
     }
 
     @Override
     public double getPerimeter() {
-        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) +
-                Math.sqrt(Math.pow(x2 - x3, 2) + Math.pow(y2 - y3, 2)) +
-                Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
+        return getSide(x1, x2, y1, y2) + getSide(x2, x3, y2, y3) + getSide(x3, x1, y3, y1);
     }
 }

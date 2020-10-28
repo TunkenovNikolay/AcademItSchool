@@ -48,6 +48,7 @@ public class Vector {
         }
 
         Vector vector1 = (Vector) o;
+
         return Arrays.equals(vector, vector1.vector);
     }
 

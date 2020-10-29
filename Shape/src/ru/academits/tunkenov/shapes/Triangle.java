@@ -86,7 +86,7 @@ public class Triangle implements Shape {
 
     @Override
     public int hashCode() {
-        final int prime = 32;
+        final int prime = 33;
         int hash = 1;
         return prime * hash + Double.hashCode(x1) + prime * hash + Double.hashCode(y1)
                 + prime * hash + Double.hashCode(x2) + prime * hash + Double.hashCode(y2)

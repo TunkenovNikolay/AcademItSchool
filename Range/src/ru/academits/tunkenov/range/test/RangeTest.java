@@ -1,4 +1,4 @@
-package ru.academits.tunkenov.range.range_test;
+package ru.academits.tunkenov.range.test;
 
 import ru.academits.tunkenov.range.Range;
 
@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class RangeTest {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        /*Scanner scanner = new Scanner(System.in);
 
         System.out.println("Сейчас мы рассчитаем длину диапазона и проверим входит ли число в этот диапазон.");
         System.out.println("Введите начальное число диапазона:");
@@ -43,9 +43,9 @@ public class RangeTest {
         double rangeToNumber = number - range.getFrom();
 
         System.out.println("Диапазон от начального числа до числа, которое мы проверили = " + rangeToNumber);
-
-        Range range1 = new Range(1, 3);
-        Range range2 = new Range(5, 7);
+*/
+        Range range1 = new Range(1, 4);
+        Range range2 = new Range(1, 2);
 
         Range crossingInterval = range1.getIntersection(range2);
         System.out.println("Интервал-пересечения = " + crossingInterval);

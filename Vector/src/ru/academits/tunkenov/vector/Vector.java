@@ -3,39 +3,42 @@ package ru.academits.tunkenov.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private double[] vector;
+    private double[] vectorComponents;
 
-    public Vector(int n) {
-        this.vector = new double[n];
-    }
-
-    public Vector(Vector other) {
-        this(other.vector);
-    }
-
-    public Vector(double[] other) {
-        vector = Arrays.copyOf(other, other.length);
-    }
-
-    public Vector(int n, double[] other) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("n must be > 0");
+    public Vector(int countComponents) {
+        if (countComponents < 1) {
+            throw new IllegalArgumentException("countComponents = " + countComponents + ", this value < 1, " +
+                    "countComponents must be >= 1");
         }
 
-        vector = Arrays.copyOf(other, n);
+        this.vectorComponents = new double[countComponents];
     }
 
-    public double[] getVector() {
-        return vector;
+    public Vector(Vector vector) {
+        this(vector.vectorComponents);
     }
 
-    public void setVector(double[] vector) {
-        this.vector = vector;
+    public Vector(double[] array) {
+        if (array.length < 1) {
+            throw new IllegalArgumentException("array.length = " + array.length + ", this value < 1, " +
+                    "array.length must be >= 1");
+        }
+
+        vectorComponents = Arrays.copyOf(array, array.length);
+    }
+
+    public Vector(int countComponents, double[] array) {
+        if (countComponents < 1) {
+            throw new IllegalArgumentException("countComponents = " + countComponents + ", this value < 1, " +
+                    "countComponents must be >= 1");
+        }
+
+        vectorComponents = Arrays.copyOf(array, countComponents);
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(vector);
+        return Arrays.toString(vectorComponents).replace("[", "{").replace("]", "}");
     }
 
     @Override
@@ -43,101 +46,110 @@ public class Vector {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        Vector vector1 = (Vector) o;
+        Vector vector = (Vector) o;
 
-        return Arrays.equals(vector, vector1.vector);
+        return Arrays.equals(vectorComponents, vector.vectorComponents);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(vector);
+        return Arrays.hashCode(vectorComponents);
     }
 
     public int getSize() {
-        return vector.length;
+        return vectorComponents.length;
     }
 
-    public void sum(Vector other) {
-        double[] array = Arrays.copyOf(vector, Math.max(vector.length, other.getSize()));
-        for (int i = 0; i <= array.length - 1; i++) {
-            array[i] += other.vector[i];
-        }
+    public void add(Vector vector) {
+        if (vectorComponents.length == vector.vectorComponents.length) {
+            for (int i = 0; i < vectorComponents.length; i++) {
+                vectorComponents[i] += vector.vectorComponents[i];
+            }
+        } else {
+            double[] array = Arrays.copyOf(vectorComponents, Math.max(vectorComponents.length, vector.vectorComponents.length));
+            for (int i = 0; i < array.length; i++) {
+                array[i] += vector.vectorComponents[i];
+            }
 
-        vector = array;
-    }
-
-    public void subtraction(Vector other) {
-        double[] array = Arrays.copyOf(vector, Math.max(vector.length, other.getSize()));
-        for (int i = 0; i <= array.length - 1; i++) {
-            array[i] -= other.vector[i];
-        }
-
-        vector = array;
-    }
-
-    public void multiplicationOnScalar(int scalar) {
-        for (int i = 0; i <= vector.length - 1; i++) {
-            vector[i] *= scalar;
+            vectorComponents = array;
         }
     }
 
-    public void reversVector() {
-        for (int i = 0; i <= vector.length - 1; i++) {
-            vector[i] *= -1;
+    public void subtract(Vector vector) {
+        if (vectorComponents.length == vector.vectorComponents.length) {
+            for (int i = 0; i < vectorComponents.length; i++) {
+                vectorComponents[i] -= vector.vectorComponents[i];
+            }
+        } else {
+            double[] array = Arrays.copyOf(vectorComponents, Math.max(vectorComponents.length, vector.vectorComponents.length));
+            for (int i = 0; i < array.length; i++) {
+                array[i] -= vector.vectorComponents[i];
+            }
+
+            vectorComponents = array;
         }
     }
 
-    public double getVectorLength() {
-        double vectorLength = vector[0];
-        for (int i = 0; i <= vector.length - 2; i++) {
-            vectorLength += Math.abs(vector[i] - vector[i + 1]);
+    public void multiplyOnScalar(double scalar) {
+        for (int i = 0; i < vectorComponents.length; i++) {
+            vectorComponents[i] *= scalar;
+        }
+    }
+
+    public void reverse() {
+        multiplyOnScalar(-1);
+    }
+
+    public double getLength() {
+        double vectorLength = vectorComponents[0];
+        for (int i = 0; i < vectorComponents.length - 1; i++) {
+            vectorLength += Math.abs(vectorComponents[i] - vectorComponents[i + 1]);
         }
 
         return vectorLength;
     }
 
-    public double getComponentToIndex(int index) {
-        if (index < 0) {
-            throw new IllegalArgumentException("index must be >= 0");
+    public double getComponent(int index) {
+        if (index < 0 || index >= vectorComponents.length) {
+            throw new ArrayIndexOutOfBoundsException("index = " + index + ", this value out of size vector, index must be  > 0 and " +
+                    "< " + vectorComponents.length);
         }
 
-        return vector[index];
+        return vectorComponents[index];
     }
 
-    public void setComponentToIndex(int index, double component) {
-        if (index < 0) {
-            throw new IllegalArgumentException("index must be >= 0");
+    public void setComponent(int index, double component) {
+        if (index < 0 || index >= vectorComponents.length) {
+            throw new ArrayIndexOutOfBoundsException("index = " + index + ", this value out of size vector, index must be  > 0 and " +
+                    "< " + vectorComponents.length);
         }
 
-        vector[index] = component;
+        vectorComponents[index] = component;
     }
 
-    public static Vector getSumTwoVectors(Vector vector1, Vector vector2) {
-        double[] array = Arrays.copyOf(vector1.vector, Math.max(vector1.getSize(), vector2.getSize()));
-        for (int i = 0; i <= array.length - 1; i++) {
-            array[i] += vector2.vector[i];
-        }
-
-        return new Vector(array);
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        Vector vector3 = new Vector(vector1);
+        vector3.add(vector2);
+        return vector3;
     }
 
-    public static Vector subtraction(Vector vector1, Vector vector2) {
-        double[] array = Arrays.copyOf(vector1.vector, Math.max(vector1.getSize(), vector2.getSize()));
-        for (int i = 0; i <= array.length - 1; i++) {
-            array[i] -= vector2.vector[i];
-        }
-
-        return new Vector(array);
+    public static Vector subtract(Vector vector1, Vector vector2) {
+        Vector vector3 = new Vector(vector1);
+        vector3.subtract(vector2);
+        return vector3;
     }
 
-    public static double getVectorsScalarMultiplication(Vector vector1, Vector vector2) {
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
         double scalarMultiplication = 0;
-        for (int i = 0; i <= Math.min(vector1.getSize(), vector2.getSize()) - 1; i++) {
-            scalarMultiplication += vector1.vector[i] * vector2.vector[i];
+        int minSize = Math.min(vector1.getSize(), vector2.getSize());
+
+        for (int i = 0; i < minSize; i++) {
+            scalarMultiplication += vector1.vectorComponents[i] * vector2.vectorComponents[i];
         }
 
         return scalarMultiplication;

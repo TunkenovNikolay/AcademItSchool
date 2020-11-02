@@ -1,4 +1,4 @@
-package ru.academits.tunkenov.vector.vector_test;
+package ru.academits.tunkenov.vector.test;
 
 import ru.academits.tunkenov.vector.Vector;
 
@@ -22,31 +22,36 @@ public class VectorTest {
 
         System.out.println("Разммерность vector4 = " + vector4.getSize());
 
-        vector3.sum(vector4);
+        vector3.add(vector4);
         System.out.println("vector3 после сложения с vector4 = " + vector3);
 
-        vector1.subtraction(vector4);
+        vector1.subtract(vector4);
         System.out.println("vector1 после вычитания vector4 = " + vector1);
 
-        vector1.multiplicationOnScalar(-5);
+        vector1.multiplyOnScalar(-5);
         System.out.println("vector1 после скалярного умножения = " + vector1);
 
-        vector1.reversVector();
+        vector1.reverse();
         System.out.println("vector1 после разворота = " + vector1);
 
-        System.out.println("Длина vector1 = " + vector1.getVectorLength());
+        System.out.println("Длина vector1 = " + vector1.getLength());
 
-        System.out.println("4й компонент vector1 = " + vector1.getComponentToIndex(4));
+        System.out.println("4й компонент vector1 = " + vector1.getComponent(4));
 
-        vector1.setComponentToIndex(4, 5);
-        System.out.println("4й компонент vector1 после изменения = " + vector1.getComponentToIndex(4));
+        vector1.setComponent(4, 5);
+        System.out.println("4й компонент vector1 после изменения = " + vector1.getComponent(4));
 
-        Vector vector5 = Vector.getSumTwoVectors(vector1, vector4);
+        Vector vector5 = Vector.getSum(vector1, vector4);
         System.out.println("vector5" + vector5);
 
-        Vector vector6 = Vector.subtraction(vector1, vector4);
+        Vector vector6 = Vector.subtract(vector1, vector4);
         System.out.println("vector6" + vector6);
 
-        System.out.println("Скалярное умножение vector1 * vector4 = " + Vector.getVectorsScalarMultiplication(vector1, vector4));
+        System.out.println("Скалярное умножение vector1 * vector4 = " + Vector.getScalarProduct(vector1, vector4));
+
+        double[] array20 = {1, 3, 5, 7, 0, -10};
+        Vector vector20 = new Vector(array20);
+        System.out.println(vector20);
+        System.out.println(vector20.getLength());
     }
 }

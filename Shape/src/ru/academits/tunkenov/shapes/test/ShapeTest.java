@@ -1,4 +1,4 @@
-package ru.academits.tunkenov.shapes.shape_test;
+package ru.academits.tunkenov.shapes.test;
 
 import ru.academits.tunkenov.shapes.*;
 

@@ -20,7 +20,7 @@ public class VectorTest {
 
         System.out.println("hashCode vector3 = " + vector3.hashCode() + " | hashCode vector4 =" + vector4.hashCode());
 
-        System.out.println("Разммерность vector4 = " + vector4.getSize());
+        System.out.println("Размерность vector4 = " + vector4.getSize());
 
         vector3.add(vector4);
         System.out.println("vector3 после сложения с vector4 = " + vector3);
@@ -49,9 +49,9 @@ public class VectorTest {
 
         System.out.println("Скалярное умножение vector1 * vector4 = " + Vector.getScalarProduct(vector1, vector4));
 
-        double[] array20 = {1, 3, 5, 7, 0, -10};
-        Vector vector20 = new Vector(array20);
-        System.out.println(vector20);
-        System.out.println(vector20.getLength());
+        double[] array3 = {1, 3, 5, 7, 0, -10};
+        Vector vector7 = new Vector(array3);
+        System.out.println("vector7" + vector7);
+        System.out.println("Длина vector7 = " + vector7.getLength());
     }
 }

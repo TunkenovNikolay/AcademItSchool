@@ -5,8 +5,8 @@ public class Rectangle implements Shape {
     private double height;
 
     public Rectangle(double width, double height) {
-        this.width = Math.abs(width);
-        this.height = Math.abs(height);
+        this.width = width;
+        this.height = height;
     }
 
     public void setWidth(double width) {
@@ -34,9 +34,11 @@ public class Rectangle implements Shape {
 
     @Override
     public int hashCode() {
-        final int prime = 33;
+        final int prime = 37;
         int hash = 1;
-        return prime * hash + Double.hashCode(width) + prime * hash + Double.hashCode(height);
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
+        return hash;
     }
 
     @Override

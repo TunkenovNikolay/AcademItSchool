@@ -21,9 +21,12 @@ public class ShapeTest {
         Arrays.sort(shapesArray, new PerimeterComparator());
         System.out.println("Фигура со вторым максимальным периметром: " + shapesArray[shapesArray.length - 2]);
 
+        Square square1 = new Square(10);
         Square square2 = new Square(10);
-        Square square3 = new Square(10);
-        System.out.println(square2.hashCode() + " | " + square3.hashCode());
-        System.out.println(square2.equals(square3));
+        System.out.println(square1.hashCode() + " | " + square2.hashCode());
+        System.out.println(square1.equals(square2));
+
+        Triangle triangle = new Triangle(2, 4, 5, 5, 2, 8);
+        System.out.println(triangle.getArea());
     }
 }

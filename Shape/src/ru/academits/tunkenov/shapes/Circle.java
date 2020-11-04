@@ -4,7 +4,7 @@ public class Circle implements Shape {
     private double radius;
 
     public Circle(double radius) {
-        this.radius = Math.abs(radius);
+        this.radius = radius;
     }
 
     public double getRadius() {
@@ -31,7 +31,7 @@ public class Circle implements Shape {
 
     @Override
     public int hashCode() {
-        final int prime = 33;
+        final int prime = 37;
         int hash = 1;
         return prime * hash + Double.hashCode(radius);
     }

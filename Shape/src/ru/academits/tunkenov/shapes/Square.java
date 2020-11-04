@@ -4,7 +4,7 @@ public class Square implements Shape {
     private double sideLength;
 
     public Square(double sideLength) {
-        this.sideLength = Math.abs(sideLength);
+        this.sideLength = sideLength;
     }
 
     public double getSideLength() {
@@ -31,7 +31,7 @@ public class Square implements Shape {
 
     @Override
     public int hashCode() {
-        final int prime = 33;
+        final int prime = 37;
         int hash = 1;
         return prime * hash + Double.hashCode(sideLength);
     }

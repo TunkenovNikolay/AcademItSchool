@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class RangeTest {
     public static void main(String[] args) {
-        /*Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Сейчас мы рассчитаем длину диапазона и проверим входит ли число в этот диапазон.");
         System.out.println("Введите начальное число диапазона:");
@@ -43,17 +43,17 @@ public class RangeTest {
         double rangeToNumber = number - range.getFrom();
 
         System.out.println("Диапазон от начального числа до числа, которое мы проверили = " + rangeToNumber);
-*/
+
         Range range1 = new Range(1, 4);
         Range range2 = new Range(1, 2);
 
-        Range crossingInterval = range1.getIntersection(range2);
-        System.out.println("Интервал-пересечения = " + crossingInterval);
+        Range intersection = range1.getIntersection(range2);
+        System.out.println("Интервал-пересечения = " + intersection);
 
-        Range[] combiningTwoIntervals = range1.getUnion(range2);
-        System.out.println("Массив объединения двух диапозонов = " + Arrays.toString(combiningTwoIntervals));
+        Range[] union = range1.getUnion(range2);
+        System.out.println("Массив объединения двух диапозонов = " + Arrays.toString(union));
 
-        Range[] differenceOfTwoIntervals = range1.getDifference(range2);
-        System.out.println("Массив разности двух диапозонов = " + Arrays.toString(differenceOfTwoIntervals));
+        Range[] difference = range1.getDifference(range2);
+        System.out.println("Массив разности двух диапозонов = " + Arrays.toString(difference));
     }
 }

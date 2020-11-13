@@ -10,12 +10,10 @@ public class ArrayListHome {
         ArrayList<Integer> numbers = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream("numbers.txt"))) {
-            int number;
             scanner.useDelimiter(", ");
 
             while (scanner.hasNextInt()) {
-                number = scanner.nextInt();
-                numbers.add(number);
+                numbers.add(scanner.nextInt());
             }
 
             System.out.println(numbers);

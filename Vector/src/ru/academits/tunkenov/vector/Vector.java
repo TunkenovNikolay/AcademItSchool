@@ -66,60 +66,48 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        if (components.length >= vector.components.length) {
-            for (int i = 0; i < vector.components.length; i++) {
-                components[i] += vector.components[i];
-            }
-        } else {
-            double[] array = Arrays.copyOf(components, vector.components.length);
+        if (vector.components.length > components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
+        }
 
-            for (int i = 0; i < vector.components.length; i++) {
-                array[i] += vector.components[i];
-            }
-
-            components = array;
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] += vector.components[i];
         }
     }
 
-    public void getSubtraction(Vector vector) {
-        if (components.length >= vector.components.length) {
-            for (int i = 0; i < vector.components.length; i++) {
-                components[i] -= vector.components[i];
-            }
-        } else {
-            double[] array = Arrays.copyOf(components, vector.components.length);
+    public void subtract(Vector vector) {
+        if (vector.components.length > components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
+        }
 
-            for (int i = 0; i < vector.components.length; i++) {
-                array[i] -= vector.components[i];
-            }
-
-            components = array;
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] -= vector.components[i];
         }
     }
 
-    public void multiplyOnScalar(double scalar) {
+    public void multiplyByScalar(double scalar) {
         for (int i = 0; i < components.length; i++) {
             components[i] *= scalar;
         }
     }
 
     public void reverse() {
-        multiplyOnScalar(-1);
+        multiplyByScalar(-1);
     }
 
     public double getLength() {
-        double vectorLength = 0;
+        double sum = 0;
 
         for (double component : components) {
-            vectorLength += component * component;
+            sum += component * component;
         }
 
-        return Math.sqrt(vectorLength);
+        return Math.sqrt(sum);
     }
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new IndexOutOfBoundsException("index = " + index + ", this value out of size vector, index must be > 0 and " +
+            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length vector, index must be > 0 and " +
                     "< " + components.length);
         }
 
@@ -128,22 +116,22 @@ public class Vector {
 
     public void setComponent(int index, double component) {
         if (index < 0 || index >= components.length) {
-            throw new IndexOutOfBoundsException("index = " + index + ", this value out of size vector, index must be > 0 and " +
+            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length vector, index must be > 0 and " +
                     "< " + components.length);
         }
 
         components[index] = component;
     }
 
-    public static Vector getSum(Vector vector1, Vector vector2) {
-        Vector vector1Copy = new Vector(vector1);
-        vector1Copy.add(vector2);
-        return vector1Copy;
+    public static Vector sum(Vector vector1, Vector vector2) {
+        Vector resultingVector = new Vector(vector1);
+        resultingVector.add(vector2);
+        return resultingVector;
     }
 
     public static Vector getSubtraction(Vector vector1, Vector vector2) {
         Vector vector1Copy = new Vector(vector1);
-        vector1Copy.getSubtraction(vector2);
+        vector1Copy.subtract(vector2);
         return vector1Copy;
     }
 

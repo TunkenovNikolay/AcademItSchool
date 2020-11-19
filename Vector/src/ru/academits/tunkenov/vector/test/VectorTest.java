@@ -23,12 +23,12 @@ public class VectorTest {
         System.out.println("Размерность vector4 = " + vector4.getSize());
 
         vector4.add(vector3);
-        System.out.println("vector3 после сложения с vector4 = " + vector3);
+        System.out.println("vector4 после сложения с vector3 = " + vector4);
 
-        vector1.getSubtraction(vector4);
+        vector1.subtract(vector4);
         System.out.println("vector1 после вычитания vector4 = " + vector1);
 
-        vector1.multiplyOnScalar(-5);
+        vector1.multiplyByScalar(-5);
         System.out.println("vector1 после скалярного умножения = " + vector1);
 
         vector1.reverse();
@@ -41,7 +41,7 @@ public class VectorTest {
         vector1.setComponent(4, 5);
         System.out.println("4й компонент vector1 после изменения = " + vector1.getComponent(4));
 
-        Vector vector5 = Vector.getSum(vector1, vector4);
+        Vector vector5 = Vector.sum(vector1, vector4);
         System.out.println("vector5: " + vector5);
 
         Vector vector6 = Vector.getSubtraction(vector1, vector4);

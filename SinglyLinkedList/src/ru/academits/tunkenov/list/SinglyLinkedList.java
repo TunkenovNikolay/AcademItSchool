@@ -98,7 +98,7 @@ public class SinglyLinkedList<T> {
         return false;
     }
 
-    public T remove() {
+    public T removeFront() {
         ListItem<T> p = head;
         head = head.getNext();
         return p.getData();

@@ -107,7 +107,7 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length vector, index must be > 0 and " +
+            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length vector, index must be >= 0 and " +
                     "< " + components.length);
         }
 
@@ -116,23 +116,23 @@ public class Vector {
 
     public void setComponent(int index, double component) {
         if (index < 0 || index >= components.length) {
-            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length vector, index must be > 0 and " +
+            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length vector, index must be >= 0 and " +
                     "< " + components.length);
         }
 
         components[index] = component;
     }
 
-    public static Vector sum(Vector vector1, Vector vector2) {
-        Vector resultingVector = new Vector(vector1);
-        resultingVector.add(vector2);
-        return resultingVector;
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        Vector resultVector = new Vector(vector1);
+        resultVector.add(vector2);
+        return resultVector;
     }
 
-    public static Vector getSubtraction(Vector vector1, Vector vector2) {
-        Vector vector1Copy = new Vector(vector1);
-        vector1Copy.subtract(vector2);
-        return vector1Copy;
+    public static Vector getDifference(Vector vector1, Vector vector2) {
+        Vector resultVector = new Vector(vector1);
+        resultVector.subtract(vector2);
+        return resultVector;
     }
 
     public static double getScalarProduct(Vector vector1, Vector vector2) {

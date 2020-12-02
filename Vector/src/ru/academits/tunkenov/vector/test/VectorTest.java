@@ -41,10 +41,10 @@ public class VectorTest {
         vector1.setComponent(4, 5);
         System.out.println("4й компонент vector1 после изменения = " + vector1.getComponent(4));
 
-        Vector vector5 = Vector.sum(vector1, vector4);
+        Vector vector5 = Vector.getSum(vector1, vector4);
         System.out.println("vector5: " + vector5);
 
-        Vector vector6 = Vector.getSubtraction(vector1, vector4);
+        Vector vector6 = Vector.getDifference(vector1, vector4);
         System.out.println("vector6: " + vector6);
 
         System.out.println("Скалярное умножение vector1 * vector4 = " + Vector.getScalarProduct(vector1, vector4));

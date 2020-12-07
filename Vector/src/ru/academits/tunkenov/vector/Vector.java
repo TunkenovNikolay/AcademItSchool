@@ -38,7 +38,16 @@ public class Vector {
 
     @Override
     public String toString() {
-        return Arrays.toString(components).replace("[", "{").replace("]", "}");
+        StringBuilder result = new StringBuilder("{ ");
+
+        for(double s : components) {
+            result.append(s).append(", ");
+        }
+
+        result.deleteCharAt(result.length() - 2);
+        result.append("}");
+
+        return result.toString();
     }
 
     @Override

@@ -1,24 +1,43 @@
 package ru.academits.tunkenov.list.test;
+
 import ru.academits.tunkenov.list.SinglyLinkedList;
 
 public class Test {
     public static void main(String[] args) {
-        Integer one = 1;
-        Integer two = 2;
-        Integer three = 3;
-        Integer four = 4;
-        Integer five = null;
-        Integer six = 6;
+        SinglyLinkedList<Integer> numbers1 = new SinglyLinkedList<>();
+        System.out.println(numbers1);
 
-        SinglyLinkedList<Integer> numbers = new SinglyLinkedList<>();
+        numbers1.add(4);
+        numbers1.add(2);
+        numbers1.add(3);
+        numbers1.add(null);
+        numbers1.add(1);
+        numbers1.addFirst(25);
+        numbers1.add(222);
+        numbers1.add(2323232);
 
-        numbers.add(one);
-        numbers.add(two);
-        numbers.add(three);
-        numbers.add(four);
+        SinglyLinkedList<Integer> numbers2 = numbers1.copy();
 
-        System.out.println(numbers);
-        System.out.println(numbers.removeFirst());
-        System.out.println(numbers);
+        System.out.println(numbers1);
+        System.out.println(numbers2);
+
+        System.out.println(numbers1.remove(2));
+        System.out.println(numbers1);
+        System.out.println(numbers2);
+        System.out.println(numbers1);
+
+        numbers1.add(2, 305);
+
+        System.out.println(numbers1);
+        System.out.println(numbers1.setData(2, 11));
+        System.out.println(numbers1.getData(2));
+
+        System.out.println(numbers1);
+        System.out.println(numbers1.removeFirst());
+        System.out.println(numbers1.getData(0));
+        System.out.println(numbers1);
+
+        System.out.println(numbers1.remove(1));
+        System.out.println(numbers1);
     }
 }

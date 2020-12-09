@@ -1,5 +1,7 @@
 package ru.academits.tunkenov.list;
 
+import java.util.NoSuchElementException;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
@@ -13,14 +15,14 @@ public class SinglyLinkedList<T> {
 
     public T getFirst() {
         if (head == null) {
-            throw new NullPointerException("Current list is empty.");
+            throw new NoSuchElementException("Current list is empty.");
         }
 
         return head.getData();
     }
 
-    private void indexCheck(int index) {
-        if (index < 0 || index >= count) {
+    private void checkIndex(int index) {
+        if (index < 0 || index > count) {
             throw new IndexOutOfBoundsException("index = " + index + ", this data out of length, index must be >= 0 and " + "< " + count);
         }
     }
@@ -36,61 +38,64 @@ public class SinglyLinkedList<T> {
     }
 
     public T getData(int index) {
-        indexCheck(index);
+        checkIndex(index);
 
         return getItemByIndex(index).getData();
     }
 
     public T setData(int index, T data) {
-        indexCheck(index);
+        checkIndex(index);
 
-        ListItem<T> oldItem = new ListItem<>(getItemByIndex(index).getData());
-        getItemByIndex(index).setData(data);
+        ListItem<T> item = getItemByIndex(index);
+        T oldData = item.getData();
+        item.setData(data);
 
-        return oldItem.getData();
+        return oldData;
     }
 
     public T removeFirst() {
-        ListItem<T> remoteItem = new ListItem<>(head.getData());
+        if (head == null) {
+            throw new NoSuchElementException("Current list is empty.");
+        }
+
+        T deletedData = head.getData();
         head = head.getNext();
         count--;
-        return remoteItem.getData();
+
+        return deletedData;
     }
 
     public T remove(int index) {
-        indexCheck(index);
-
-        ListItem<T> previousItem = getItemByIndex(index - 1);
-        ListItem<T> currentItem = getItemByIndex(index);
-        ListItem<T> remoteItem = new ListItem<>(currentItem.getData());
-        count--;
+        checkIndex(index);
 
         if (index == 0) {
-            head = head.getNext();
-            return remoteItem.getData();
+            return removeFirst();
         }
 
-        previousItem.setNext(currentItem.getNext());
+        ListItem<T> previousItem = getItemByIndex(index - 1);
+        T deletedData = previousItem.getNext().getData();
+        previousItem.setNext(previousItem.getNext().getNext());
 
-        return remoteItem.getData();
+        count--;
+
+        return deletedData;
     }
 
     public boolean remove(T data) {
-        ListItem<T> newItem = new ListItem<>(data);
-
-        if (count < 1) {
+        if (count == 0) {
             return false;
         }
 
-        if (head.getData() == newItem.getData()) {
+        if (head.getData().equals(data)) {
             removeFirst();
             return true;
         }
 
-        for (ListItem<T> p = head.getNext(), previous = head; p != null; previous = p, p = p.getNext()) {
-            if (p.getData() == newItem.getData()) {
-                previous.setNext(p.getNext());
+        for (ListItem<T> next = head.getNext(), previous = head; next != null; previous = next, next = next.getNext()) {
+            if (next.getData().equals(data)) {
+                previous.setNext(next.getNext());
                 count--;
+
                 return true;
             }
         }
@@ -99,28 +104,23 @@ public class SinglyLinkedList<T> {
     }
 
     public void addFirst(T data) {
-        ListItem<T> newItem = new ListItem<>(data);
-        newItem.setNext(head);
-        head = newItem;
+        head = new ListItem<>(data, head);
         count++;
     }
 
     public void add(int index, T data) {
+        checkIndex(index);
+
         if (index == 0) {
             addFirst(data);
             return;
         }
 
-        ListItem<T> currentItem = head;
+        ListItem<T> previousItem = getItemByIndex(index - 1);
+        ListItem<T> newItem = new ListItem<>(data, previousItem.getNext());
 
-        for (int i = 0; i < index - 1; i++) {
-            currentItem = currentItem.getNext();
-        }
+        previousItem.setNext(newItem);
 
-        ListItem<T> newItem = new ListItem<>(data);
-
-        newItem.setNext(currentItem.getNext());
-        currentItem.setNext(newItem);
         count++;
     }
 
@@ -148,32 +148,44 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        SinglyLinkedList<T> copy = new SinglyLinkedList<>();
+        SinglyLinkedList<T> copyList = new SinglyLinkedList<>();
 
-        if (count < 1) {
-            return copy;
+        if (count == 0) {
+            return copyList;
         }
 
-        ListItem<T> copyItem;
-        for (int i = 0; i < count; i++) {
-            copyItem = new ListItem<>(getData(i));
-            copy.add(copyItem.getData());
+        ListItem<T> copyItem = new ListItem<>(head.getData());
+        copyList.head = copyItem;
+        ListItem<T> currentItem = head;
+
+        for (int i = 1; i < count; i++) {
+            currentItem = currentItem.getNext();
+            ListItem<T> copyNextItem = new ListItem<>(currentItem.getData());
+            copyItem.setNext(copyNextItem);
+            copyItem = copyItem.getNext();
         }
 
-        return copy;
+        return copyList;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("[");
+
+        if (count == 0) {
+            sb.append("]");
+            return sb.toString();
+        }
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             sb.append(p.getData());
             sb.append(", ");
         }
 
+        sb.append("]");
+        sb.deleteCharAt(sb.length() - 3);
         sb.deleteCharAt(sb.length() - 2);
+
         return sb.toString();
     }
 }
-

@@ -1,5 +1,6 @@
 package ru.academits.tunkenov.array_list_home;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -7,15 +8,17 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    public static void readLines(ArrayList<String> lines) {
-        try (Scanner scanner = new Scanner(new FileInputStream("lines.txt")).useDelimiter("//n")) {
+    public static ArrayList<String> readLines(File file) {
+        ArrayList<String> readLines = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new FileInputStream(file))) {
             while (scanner.hasNextLine()) {
-                lines.add(scanner.nextLine());
+                readLines.add(scanner.nextLine());
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("Файл, который необходимо прочитать не найден.");
         }
+
+        return readLines;
     }
 
     public static void removeEvenNumbers(ArrayList<Integer> numbers) {
@@ -27,9 +30,9 @@ public class ArrayListHome {
         }
     }
 
-    public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbers) {
+    public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbers, int capacity) {
         ArrayList<Integer> uniqueNumbers = new ArrayList<>();
-        uniqueNumbers.ensureCapacity(numbers.size());
+        uniqueNumbers.ensureCapacity(capacity);
 
         for (Integer number : numbers) {
             if (!uniqueNumbers.contains(number)) {
@@ -37,22 +40,20 @@ public class ArrayListHome {
             }
         }
 
-        uniqueNumbers.trimToSize();
-
         return uniqueNumbers;
     }
 
     public static void main(String[] args) {
-        ArrayList<String> lines = new ArrayList<>();
-        readLines(lines);
-        System.out.println(lines);
+        File file = new File("lines.txt");
+        ArrayList<String> lines = readLines(file);
+        System.out.println("Строки прочитанные из файла lines: " + lines);
 
         ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 2, 2, 3, 3, 3, 4, 2, 5, 3, 3, 6, 7, 8, 9, 10));
         removeEvenNumbers(numbers);
-        System.out.println(numbers);
+        System.out.println("Распечатан список numbers после удаления четных чисел: " + numbers);
 
-        ArrayList<Integer> uniqueNumbers = getUniqueNumbers(numbers);
-        System.out.println(uniqueNumbers);
+        ArrayList<Integer> uniqueNumbers = getUniqueNumbers(numbers, 5);
+        System.out.println("Распечатан список uniqueNumbers: " + uniqueNumbers);
     }
 }
 

@@ -38,16 +38,17 @@ public class Vector {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("{ ");
+        StringBuilder stringBuilder = new StringBuilder("{");
 
-        for(double s : components) {
-            result.append(s).append(", ");
+        for (double c : components) {
+            stringBuilder.append(c).append(", ");
         }
 
-        result.deleteCharAt(result.length() - 2);
-        result.append("}");
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.append("}");
 
-        return result.toString();
+        return stringBuilder.toString();
     }
 
     @Override

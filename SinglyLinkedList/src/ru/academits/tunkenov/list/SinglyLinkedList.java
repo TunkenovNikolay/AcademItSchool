@@ -22,8 +22,8 @@ public class SinglyLinkedList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index > count) {
-            throw new IndexOutOfBoundsException("index = " + index + ", this data out of length, index must be >= 0 and " + "< " + count);
+        if (index < 0 || index >= count) {
+            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length, index must be >= 0 and < " + count);
         }
     }
 
@@ -86,6 +86,22 @@ public class SinglyLinkedList<T> {
             return false;
         }
 
+        if (data == null) {
+            if (head.getData() == (data)) {
+                removeFirst();
+                return true;
+            }
+
+            for (ListItem<T> next = head.getNext(), previous = head; next != null; previous = next, next = next.getNext()) {
+                if (next.getData() == (data)) {
+                    previous.setNext(next.getNext());
+                    count--;
+
+                    return true;
+                }
+            }
+        }
+
         if (head.getData().equals(data)) {
             removeFirst();
             return true;
@@ -109,7 +125,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void add(int index, T data) {
-        checkIndex(index);
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException("index = " + index + ", this index out of length, index must be >= 0 and <= " + count);
+        }
 
         if (index == 0) {
             addFirst(data);
@@ -165,26 +183,26 @@ public class SinglyLinkedList<T> {
             copyItem = copyItem.getNext();
         }
 
+        copyList.count = count;
+
         return copyList;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-
         if (count == 0) {
-            sb.append("]");
-            return sb.toString();
+            return "This list is empty.";
         }
+
+        StringBuilder sb = new StringBuilder("[");
 
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             sb.append(p.getData());
             sb.append(", ");
         }
 
+        sb.delete(sb.length() - 2, sb.length());
         sb.append("]");
-        sb.deleteCharAt(sb.length() - 3);
-        sb.deleteCharAt(sb.length() - 2);
 
         return sb.toString();
     }

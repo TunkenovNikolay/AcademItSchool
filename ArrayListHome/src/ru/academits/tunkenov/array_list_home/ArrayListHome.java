@@ -8,8 +8,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    public static ArrayList<String> readLines(File file) {
+    public static ArrayList<String> getLines(File file) {
         ArrayList<String> readLines = new ArrayList<>();
+
         try (Scanner scanner = new Scanner(new FileInputStream(file))) {
             while (scanner.hasNextLine()) {
                 readLines.add(scanner.nextLine());
@@ -30,9 +31,8 @@ public class ArrayListHome {
         }
     }
 
-    public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbers, int capacity) {
+    public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbers) {
         ArrayList<Integer> uniqueNumbers = new ArrayList<>();
-        uniqueNumbers.ensureCapacity(capacity);
 
         for (Integer number : numbers) {
             if (!uniqueNumbers.contains(number)) {
@@ -45,14 +45,15 @@ public class ArrayListHome {
 
     public static void main(String[] args) {
         File file = new File("lines.txt");
-        ArrayList<String> lines = readLines(file);
-        System.out.println("Строки прочитанные из файла lines: " + lines);
+        ArrayList<String> fileStrings = getLines(file);
+        System.out.println("Строки прочитанные из файла lines: " + fileStrings);
 
         ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 2, 2, 3, 3, 3, 4, 2, 5, 3, 3, 6, 7, 8, 9, 10));
         removeEvenNumbers(numbers);
         System.out.println("Распечатан список numbers после удаления четных чисел: " + numbers);
 
-        ArrayList<Integer> uniqueNumbers = getUniqueNumbers(numbers, 5);
+        ArrayList<Integer> uniqueNumbers = new ArrayList<>(5);
+        uniqueNumbers = getUniqueNumbers(numbers);
         System.out.println("Распечатан список uniqueNumbers: " + uniqueNumbers);
     }
 }

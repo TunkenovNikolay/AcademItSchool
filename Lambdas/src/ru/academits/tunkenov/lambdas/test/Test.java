@@ -2,7 +2,6 @@ package ru.academits.tunkenov.lambdas.test;
 
 import ru.academits.tunkenov.lambdas.Person;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,56 +9,45 @@ import java.util.stream.Collectors;
 
 public class Test {
     public static void main(String[] args) {
-        Person ivan = new Person("Ivan", 13);
-        Person petr = new Person("Petr", 16);
-        Person nikolay = new Person("Nikolay", 26);
-        Person dmitriy = new Person("Dmitriy", 29);
-        Person alexandr = new Person("Alexandr", 35);
-        Person vasiliy = new Person("Vasiliy", 38);
-
-        List<Person> persons = new ArrayList<>(Arrays.asList(ivan, petr, nikolay, dmitriy, alexandr, vasiliy));
+        List<Person> persons = Arrays.asList(
+                new Person("Ivan", 13),
+                new Person("Petr", 16),
+                new Person("Nikolay", 26),
+                new Person("Dmitriy", 29),
+                new Person("Alexandr", 35),
+                new Person("Vasiliy", 38),
+                new Person("Ivan", 27)
+        );
 
         List<String> uniqueNames = persons.stream()
                 .map(Person::getName)
                 .distinct()
                 .collect(Collectors.toList());
 
-        System.out.println(uniqueNames);
+        System.out.println("Уникальные имена из списка persons: " + uniqueNames);
 
-        uniqueNames.forEach(p -> {
-            if (p.equals(uniqueNames.get(0))) {
-                System.out.print("Имена: ");
-            }
+        System.out.println(uniqueNames.stream().collect(Collectors.joining(", ", "Имена: ", ".")));
 
-            if (!p.equals(uniqueNames.get(uniqueNames.size() - 1))) {
-                System.out.print(p + ", ");
-            } else {
-                System.out.println(p + ".");
-            }
-        });
-
-        List<Person> personsUndo18 = persons.stream()
+        List<Person> personsUnder18 = persons.stream()
                 .filter(p -> p.getAge() < 18)
                 .collect(Collectors.toList());
 
-        Double averageAgeUndo18 = personsUndo18.stream()
+        Double averageAgeUnder18 = personsUnder18.stream()
                 .collect(Collectors.averagingInt(Person::getAge));
 
-        System.out.println(averageAgeUndo18);
+        System.out.println("Средний возраст людей младше 18 лет: " + averageAgeUnder18);
 
-        Double averageAge = persons.stream()
-                .collect(Collectors.averagingInt(Person::getAge));
-
-        Map<String, Double> personsMap = persons.stream()
-                .collect(Collectors.toMap(
+        Map<String, Double> ageByNames = persons.stream()
+                .collect(Collectors.groupingBy(
                         Person::getName,
-                        p -> averageAge));
+                        Collectors.averagingDouble(Person::getAge)
+                ));
 
-        System.out.println(personsMap);
+        System.out.println("Средний возраст людей с одинаковым именем:" + ageByNames);
 
         persons.stream()
-                .filter(p -> p.getAge() > 20 && p.getAge() < 45)
-                .sorted((s1, s2) -> s2.getName().compareTo(s1.getName()))
+                .filter(p -> p.getAge() > 19 && p.getAge() < 46)
+                .sorted((s1, s2) -> s2.getAge() - s1.getAge())
                 .forEach(System.out::println);
     }
 }

@@ -1,16 +1,16 @@
 package ru.academits.tunkenov.temperature.view;
 
-import ru.academits.tunkenov.temperature.model.TemperatureConverter;
+import ru.academits.tunkenov.temperature.model.Converter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class DesktopView implements View {
-    private final TemperatureConverter temperatureConverter;
-    private int selectedRadioButton;
+    private final Converter converter;
 
-    public DesktopView(TemperatureConverter temperatureConverter) {
-        this.temperatureConverter = temperatureConverter;
+    public DesktopView(Converter converter) {
+        this.converter = converter;
     }
 
     @Override
@@ -20,7 +20,8 @@ public class DesktopView implements View {
             frame.setSize(600, 300);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.setVisible(true);
+            Dimension minimumSize = new Dimension(580, 300);
+            frame.setMinimumSize(minimumSize);
 
             JPanel inputPanel = new JPanel(new FlowLayout());
             frame.add(inputPanel, BorderLayout.NORTH);
@@ -38,60 +39,20 @@ public class DesktopView implements View {
             JTextField celsiusTemperatureField = new JTextField(10);
             inputPanel.add(celsiusTemperatureField);
 
-            JLabel kelvinTemperatureLabel = new JLabel();
-            kelvinTemperatureLabel.setFont(celsiusLabel.getFont().deriveFont(20.0f));
-            resultPanel.add(kelvinTemperatureLabel);
+            JLabel temperatureLabel = new JLabel();
+            temperatureLabel.setFont(celsiusLabel.getFont().deriveFont(12.0f));
+            resultPanel.add(temperatureLabel);
 
-            JRadioButton celsiusToKelvin = new JRadioButton("Перевод температуры из Цельсии в Кельвин.", true);
-            radioButtonPanel.add(celsiusToKelvin);
-            celsiusToKelvin.addActionListener(e -> selectedRadioButton = 1);
+            String[] comboBoxStrings = converter.getComboBoxStrings();
 
-            JRadioButton celsiusToFahrenheit = new JRadioButton("Перевод температуры из Цельсии в Фаренгейт.");
-            radioButtonPanel.add(celsiusToFahrenheit);
-            celsiusToFahrenheit.addActionListener(e -> selectedRadioButton = 2);
-
-            JRadioButton fahrenheitToCelsius = new JRadioButton("Перевод температуры из Фаренгейт в Цельсии.");
-            radioButtonPanel.add(fahrenheitToCelsius);
-            fahrenheitToCelsius.addActionListener(e -> selectedRadioButton = 3);
-
-            JRadioButton fahrenheitToKelvin = new JRadioButton("Перевод температуры из Фаренгейт в Кельвин.");
-            radioButtonPanel.add(fahrenheitToKelvin);
-            fahrenheitToKelvin.addActionListener(e -> selectedRadioButton = 4);
-
-            JRadioButton kelvinToCelsius = new JRadioButton("Перевод температуры из Кельвин в Цельсии.");
-            radioButtonPanel.add(kelvinToCelsius);
-            kelvinToCelsius.addActionListener(e -> selectedRadioButton = 5);
-
-            JRadioButton kelvinToFahrenheit = new JRadioButton("Перевод температуры из Кельвин в Фарнгейт.");
-            radioButtonPanel.add(kelvinToFahrenheit);
-            kelvinToFahrenheit.addActionListener(e -> selectedRadioButton = 6);
-
-            ButtonGroup group = new ButtonGroup();
-            group.add(celsiusToKelvin);
-            group.add(celsiusToFahrenheit);
-            group.add(fahrenheitToCelsius);
-            group.add(fahrenheitToKelvin);
-            group.add(kelvinToCelsius);
-            group.add(kelvinToFahrenheit);
+            JComboBox<String> comboBox = new JComboBox<>(comboBoxStrings);
+            radioButtonPanel.add(comboBox);
 
             JButton convertButton = new JButton("Перевести температуру");
             convertButton.addActionListener(e -> {
                 try {
                     double temperature = Double.parseDouble(celsiusTemperatureField.getText());
-
-                    if (selectedRadioButton == 2) {
-                        kelvinTemperatureLabel.setText("Результат из Цельсии в Фаренгейт: " + temperatureConverter.convertCelsiusToFahrenheit(temperature));
-                    } else if (selectedRadioButton == 3) {
-                        kelvinTemperatureLabel.setText("Результат из Фаренгейт в Цельсия: " + temperatureConverter.convertFahrenheitToCelsius(temperature));
-                    } else if (selectedRadioButton == 4) {
-                        kelvinTemperatureLabel.setText("Результат из Фаренгейт в Кельвин: " + temperatureConverter.convertFahrenheitToKelvin(temperature));
-                    } else if (selectedRadioButton == 5) {
-                        kelvinTemperatureLabel.setText("Результат из Кельвин в Цельсии: " + temperatureConverter.convertKelvinToCelsius(temperature));
-                    } else if (selectedRadioButton == 6) {
-                        kelvinTemperatureLabel.setText("Результат из Кельвин в Фаренгейт: " + temperatureConverter.convertKelvinToFahrenheit(temperature));
-                    } else {
-                        kelvinTemperatureLabel.setText("Результат из Цельсии в Кельвин: " + temperatureConverter.convertCelsiusToKelvin(temperature));
-                    }
+                    temperatureLabel.setText(converter.temperatureConverter(Objects.requireNonNull(comboBox.getSelectedItem()), temperature));
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Температура должна быть числом.");
                 }

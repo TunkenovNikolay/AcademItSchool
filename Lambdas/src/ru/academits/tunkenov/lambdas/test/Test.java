@@ -37,16 +37,16 @@ public class Test {
 
         System.out.println("Средний возраст людей младше 18 лет: " + averageAgeUnder18);
 
-        Map<String, Double> ageByNames = persons.stream()
+        Map<String, Double> averageAgeByNames = persons.stream()
                 .collect(Collectors.groupingBy(
                         Person::getName,
                         Collectors.averagingDouble(Person::getAge)
                 ));
 
-        System.out.println("Средний возраст людей с одинаковым именем:" + ageByNames);
+        System.out.println("Средний возраст людей с одинаковым именем:" + averageAgeByNames);
 
         persons.stream()
-                .filter(p -> p.getAge() > 19 && p.getAge() < 46)
+                .filter(p -> p.getAge() >= 20 && p.getAge() <= 45)
                 .sorted((s1, s2) -> s2.getAge() - s1.getAge())
                 .forEach(System.out::println);
     }

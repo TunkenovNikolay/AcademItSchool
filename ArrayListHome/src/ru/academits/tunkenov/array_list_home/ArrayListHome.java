@@ -9,17 +9,17 @@ import java.util.Scanner;
 
 public class ArrayListHome {
     public static ArrayList<String> getLines(File file) {
-        ArrayList<String> readLines = new ArrayList<>();
+        ArrayList<String> fileLines = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream(file))) {
             while (scanner.hasNextLine()) {
-                readLines.add(scanner.nextLine());
+                fileLines.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             System.out.println("Файл, который необходимо прочитать не найден.");
         }
 
-        return readLines;
+        return fileLines;
     }
 
     public static void removeEvenNumbers(ArrayList<Integer> numbers) {
@@ -32,7 +32,7 @@ public class ArrayListHome {
     }
 
     public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbers) {
-        ArrayList<Integer> uniqueNumbers = new ArrayList<>();
+        ArrayList<Integer> uniqueNumbers = new ArrayList<>(numbers.size());
 
         for (Integer number : numbers) {
             if (!uniqueNumbers.contains(number)) {
@@ -52,8 +52,7 @@ public class ArrayListHome {
         removeEvenNumbers(numbers);
         System.out.println("Распечатан список numbers после удаления четных чисел: " + numbers);
 
-        ArrayList<Integer> uniqueNumbers = new ArrayList<>(5);
-        uniqueNumbers = getUniqueNumbers(numbers);
+        ArrayList<Integer> uniqueNumbers = getUniqueNumbers(numbers);
         System.out.println("Распечатан список uniqueNumbers: " + uniqueNumbers);
     }
 }

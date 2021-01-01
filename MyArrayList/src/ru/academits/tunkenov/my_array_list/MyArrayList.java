@@ -14,7 +14,7 @@ public class MyArrayList<E> implements List<E> {
 
     public MyArrayList(int initialCapacity) {
         if (initialCapacity < 0) {
-            throw new IllegalArgumentException("initialCapacity: " + initialCapacity + ", must be > 0");
+            throw new IllegalArgumentException("initialCapacity: " + initialCapacity + ", must be >= 0");
         }
 
         //noinspection unchecked
@@ -41,7 +41,8 @@ public class MyArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (items.length == 0) {
-            items = Arrays.copyOf(items, items.length + 2);
+            //noinspection unchecked
+            items = (E[]) new Object[10];
         } else {
             items = Arrays.copyOf(items, items.length * 2);
         }
@@ -93,10 +94,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        //noinspection unchecked
-        E[] array = (E[]) new Object[size];
-        System.arraycopy(items, 0, array, 0, size);
-        return array;
+        return Arrays.copyOf(items, size);
     }
 
     @Override
@@ -117,12 +115,8 @@ public class MyArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(E object) {
-        if (size >= items.length) {
-            increaseCapacity();
-        }
-
-        add(size, object);
+    public boolean add(E item) {
+        add(size, item);
 
         return true;
     }
@@ -132,7 +126,7 @@ public class MyArrayList<E> implements List<E> {
         int index = indexOf(object);
 
         if (index > -1) {
-            items[index] = null;
+            System.arraycopy(items, index + 1, items, index, items.length - index - 1);
             size--;
             modCount++;
             return true;
@@ -154,14 +148,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> collection) {
-        if (collection == null) {
-            throw new NullPointerException("Collection is null");
-        }
-        if (collection.isEmpty()) {
-            return false;
-        }
-
-        addAll(size, collection);
+        addAll(0, collection);
 
         return true;
     }
@@ -177,15 +164,18 @@ public class MyArrayList<E> implements List<E> {
             return false;
         }
 
-        items = Arrays.copyOf(items, size + collection.size());
+        ensureCapacity(collection.size() + size);
+
+        System.arraycopy(items, index, items, index + collection.size(), size - index);
 
         int indexInsert = index;
 
         for (E e : collection) {
-            add(indexInsert, e);
+            items[indexInsert] = e;
             indexInsert++;
         }
 
+        size += collection.size();
         modCount++;
 
         return true;
@@ -216,7 +206,7 @@ public class MyArrayList<E> implements List<E> {
             throw new NullPointerException("Collection is null");
         }
         if (collection.isEmpty()) {
-            return false;
+            return true;
         }
 
         for (int i = 0; i < size; i++) {
@@ -240,7 +230,9 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        checkIndex(index);
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index must be >= 0 and < " + size);
+        }
 
         return items[index];
     }
@@ -249,14 +241,15 @@ public class MyArrayList<E> implements List<E> {
     public E set(int index, E item) {
         checkIndex(index);
 
+        E oldItem = items[index];
         items[index] = item;
-        return item;
+        return oldItem;
     }
 
     @Override
     public void add(int index, E item) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and <= length = " + size);
+            throw new IndexOutOfBoundsException("Index must be >= 0 and <= " + size);
         }
 
         if (size == items.length) {
@@ -274,12 +267,13 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        checkIndex(index);
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index must be >= 0 and < " + size);
+        }
 
         E removedItem = items[index];
-        if (index != size) {
-            System.arraycopy(items, index + 1, items, index, size - index);
-        }
+        System.arraycopy(items, index + 1, items, index, size - index);
+        items[size] = null;
 
         size--;
         modCount++;
@@ -289,39 +283,20 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public int indexOf(Object object) {
-        if (object != null) {
-            for (int i = 0; i < size; i++) {
-                if (object.equals(items[i])) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         for (int i = 0; i < size; i++) {
-            if (null == items[i]) {
+            if (Objects.equals(items[i], object)) {
                 return i;
             }
         }
 
         return -1;
+
     }
 
     @Override
     public int lastIndexOf(Object object) {
-        if (object != null) {
-            for (int i = size - 1; i >= 0; i--) {
-                if (object.equals(items[i])) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         for (int i = size - 1; i >= 0; i--) {
-            if (null == items[i]) {
+            if (Objects.equals(items[i], object)) {
                 return i;
             }
         }
@@ -346,6 +321,19 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public String toString() {
-        return Arrays.toString(items);
+        if(size == 0) {
+            return "[]";
+        }
+
+        StringBuilder sb = new StringBuilder("[");
+
+        for (int i = 0; i < size; i++) {
+            sb.append(items[i]).append(", ");
+        }
+
+        sb.delete(sb.length() - 2, sb.length());
+        sb.append("]");
+
+        return sb.toString();
     }
 }

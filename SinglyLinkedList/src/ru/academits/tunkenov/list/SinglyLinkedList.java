@@ -1,6 +1,7 @@
 package ru.academits.tunkenov.list;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
@@ -86,30 +87,14 @@ public class SinglyLinkedList<T> {
             return false;
         }
 
-        if (data == null) {
-            if (head.getData() == (data)) {
-                removeFirst();
-                return true;
-            }
-
-            for (ListItem<T> next = head.getNext(), previous = head; next != null; previous = next, next = next.getNext()) {
-                if (next.getData() == (data)) {
-                    previous.setNext(next.getNext());
-                    count--;
-
-                    return true;
-                }
-            }
-        }
-
-        if (head.getData().equals(data)) {
+        if (Objects.equals(head.getData(), data)) {
             removeFirst();
             return true;
         }
 
-        for (ListItem<T> next = head.getNext(), previous = head; next != null; previous = next, next = next.getNext()) {
-            if (next.getData().equals(data)) {
-                previous.setNext(next.getNext());
+        for (ListItem<T> current = head.getNext(), previous = head; current != null; previous = current, current = current.getNext()) {
+            if (Objects.equals(current.getData(), data)) {
+                previous.setNext(current.getNext());
                 count--;
 
                 return true;
@@ -174,13 +159,11 @@ public class SinglyLinkedList<T> {
 
         ListItem<T> copyItem = new ListItem<>(head.getData());
         copyList.head = copyItem;
-        ListItem<T> currentItem = head;
+        ListItem<T> currentItem = head.getNext();
 
-        for (int i = 1; i < count; i++) {
-            currentItem = currentItem.getNext();
-            ListItem<T> copyNextItem = new ListItem<>(currentItem.getData());
-            copyItem.setNext(copyNextItem);
-            copyItem = copyItem.getNext();
+        for (; currentItem.getNext() != null; currentItem = currentItem.getNext()) {
+            copyItem.setNext(currentItem);
+            copyItem = currentItem;
         }
 
         copyList.count = count;
@@ -191,7 +174,7 @@ public class SinglyLinkedList<T> {
     @Override
     public String toString() {
         if (count == 0) {
-            return "This list is empty.";
+            return "[]";
         }
 
         StringBuilder sb = new StringBuilder("[");

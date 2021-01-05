@@ -1,7 +1,6 @@
 package ru.academits.tunkenov.temperature.view;
 
 import ru.academits.tunkenov.temperature.model.Converter;
-import ru.academits.tunkenov.temperature.model.TemperatureConverter;
 import ru.academits.tunkenov.temperature.model.scales.TemperatureScales;
 
 import javax.swing.*;

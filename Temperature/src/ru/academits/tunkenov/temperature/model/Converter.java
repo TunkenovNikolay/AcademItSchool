@@ -1,6 +1,7 @@
 package ru.academits.tunkenov.temperature.model;
 
+import ru.academits.tunkenov.temperature.model.scales.TemperatureScales;
+
 public interface Converter {
-    String[] getComboBoxStrings();
-    String temperatureConverter(Object object, double temperature);
+    double temperatureConverter(TemperatureScales inputTemperatureScale, TemperatureScales outputTemperatureScale, double temperature);
 }

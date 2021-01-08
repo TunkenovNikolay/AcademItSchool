@@ -18,12 +18,18 @@ public class MyArrayList<E> implements List<E> {
         }
 
         //noinspection unchecked
-        this.items = (E[]) new Object[initialCapacity];
+        items = (E[]) new Object[initialCapacity];
     }
 
-    private void checkIndex(int index) {
+    private void checkBoundInclusive(int index) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index must be >= 0 and <= " + size);
+        }
+    }
+
+    private void checkBoundExclusive(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index must be >= 0 and < " + size);
         }
     }
 
@@ -126,9 +132,7 @@ public class MyArrayList<E> implements List<E> {
         int index = indexOf(object);
 
         if (index > -1) {
-            System.arraycopy(items, index + 1, items, index, items.length - index - 1);
-            size--;
-            modCount++;
+            remove(indexOf(object));
             return true;
         }
 
@@ -148,14 +152,12 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> collection) {
-        addAll(0, collection);
-
-        return true;
+        return addAll(size, collection);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> collection) {
-        checkIndex(index);
+        checkBoundInclusive(index);
 
         if (collection == null) {
             throw new NullPointerException("Collection is null");
@@ -168,11 +170,11 @@ public class MyArrayList<E> implements List<E> {
 
         System.arraycopy(items, index, items, index + collection.size(), size - index);
 
-        int indexInsert = index;
+        int i = index;
 
         for (E e : collection) {
-            items[indexInsert] = e;
-            indexInsert++;
+            items[i] = e;
+            i++;
         }
 
         size += collection.size();
@@ -190,14 +192,17 @@ public class MyArrayList<E> implements List<E> {
             return false;
         }
 
+        boolean check = false;
+
         for (int i = 0; i < size; i++) {
             if (collection.contains(items[i])) {
                 remove(i);
                 i--;
+                check = true;
             }
         }
 
-        return true;
+        return check;
     }
 
     @Override
@@ -206,23 +211,27 @@ public class MyArrayList<E> implements List<E> {
             throw new NullPointerException("Collection is null");
         }
         if (collection.isEmpty()) {
+            clear();
             return true;
         }
+
+        boolean check = false;
 
         for (int i = 0; i < size; i++) {
             if (!collection.contains(items[i])) {
                 remove(i);
                 i--;
+                check = true;
             }
         }
 
-        return true;
+        return check;
     }
 
     @Override
     public void clear() {
         if (size > 0) {
-            Arrays.fill(items, null);
+            Arrays.fill(items, 0, size, null);
             modCount++;
             size = 0;
         }
@@ -230,16 +239,14 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and < " + size);
-        }
+        checkBoundExclusive(index);
 
         return items[index];
     }
 
     @Override
     public E set(int index, E item) {
-        checkIndex(index);
+        checkBoundExclusive(index);
 
         E oldItem = items[index];
         items[index] = item;
@@ -248,9 +255,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E item) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and <= " + size);
-        }
+        checkBoundInclusive(index);
 
         if (size == items.length) {
             increaseCapacity();
@@ -267,12 +272,14 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and < " + size);
-        }
+        checkBoundExclusive(index);
 
         E removedItem = items[index];
-        System.arraycopy(items, index + 1, items, index, size - index);
+
+        if (index != --size) {
+            System.arraycopy(items, index + 1, items, index, size - index);
+        }
+
         items[size] = null;
 
         size--;
@@ -321,7 +328,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public String toString() {
-        if(size == 0) {
+        if (size == 0) {
             return "[]";
         }
 

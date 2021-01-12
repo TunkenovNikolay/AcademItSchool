@@ -1,20 +1,15 @@
 package ru.academits.tunkenov.temperature.view;
 
-import ru.academits.tunkenov.temperature.model.Converter;
-import ru.academits.tunkenov.temperature.model.scales.TemperatureScales;
+import ru.academits.tunkenov.temperature.model.TemperatureConverter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DesktopView implements View {
-    private final Converter converter;
-    private final HashMap<String, TemperatureScales> scalesList;
+    private final TemperatureConverter converter;
 
-    public DesktopView(Converter converter, HashMap<String, TemperatureScales> scalesList) {
+    public DesktopView(TemperatureConverter converter) {
         this.converter = converter;
-        this.scalesList = scalesList;
     }
 
     @Override
@@ -35,7 +30,8 @@ public class DesktopView implements View {
             frame.add(resultPanel, BorderLayout.SOUTH);
 
             JPanel radioButtonPanel = new JPanel();
-            radioButtonPanel.setLayout(new BoxLayout(radioButtonPanel, BoxLayout.LINE_AXIS));
+            GridLayout gridLayout = new GridLayout(2, 2, 5, 5);
+            radioButtonPanel.setLayout(gridLayout);
             frame.add(radioButtonPanel);
 
             JLabel celsiusLabel = new JLabel("Введите температуру:");
@@ -48,31 +44,37 @@ public class DesktopView implements View {
             temperatureLabel.setFont(celsiusLabel.getFont().deriveFont(12.0f));
             resultPanel.add(temperatureLabel);
 
-            String[] scalesName = new String[scalesList.size()];
-            int i = 0;
+            String[] scalesName = new String[converter.getScalesList().size()];
 
-            for (Map.Entry<String, TemperatureScales> pair : scalesList.entrySet()) {
-                scalesName[i] = pair.getKey();
-                i++;
+            for (int i = 0; i < converter.getScalesList().size(); i++) {
+                scalesName[i] = converter.getScalesList().get(i).getName();
             }
 
-            JComboBox<String> comboBoxInput = new JComboBox<>(scalesName);
-            radioButtonPanel.add(comboBoxInput);
-            comboBoxInput.setMaximumSize(new Dimension(Integer.MAX_VALUE, comboBoxInput.getMinimumSize().height));
+            JLabel sourceScale = new JLabel("Исходная шкала:");
+            radioButtonPanel.add(sourceScale);
 
-            JComboBox<String> comboBoxOutput = new JComboBox<>(scalesName);
-            radioButtonPanel.add(comboBoxOutput);
-            comboBoxOutput.setMaximumSize(new Dimension(Integer.MAX_VALUE, comboBoxInput.getMinimumSize().height));
+            JLabel sourceScale1 = new JLabel("Результирующая шкала:");
+            radioButtonPanel.add(sourceScale1);
+
+            JComboBox<String> inputComboBox = new JComboBox<>(scalesName);
+            radioButtonPanel.add(inputComboBox);
+
+            JComboBox<String> outputComboBox = new JComboBox<>(scalesName);
+            radioButtonPanel.add(outputComboBox);
 
             JButton convertButton = new JButton("Перевести температуру");
             convertButton.addActionListener(e -> {
                 try {
-                    temperatureLabel.setText(String.valueOf(converter.temperatureConverter(
-                            scalesList.get(comboBoxInput.getSelectedItem()),
-                            scalesList.get(comboBoxOutput.getSelectedItem()),
+                    temperatureLabel.setText(String.valueOf(converter.convertTemperature(
+                            inputComboBox.getSelectedIndex(),
+                            outputComboBox.getSelectedIndex(),
                             Double.parseDouble(celsiusTemperatureField.getText()))));
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом.");
+                    if (celsiusTemperatureField.getText().isBlank()) {
+                        JOptionPane.showMessageDialog(frame, "Вы забыли ввести температуру.");
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Температура должна быть числом.");
+                    }
                 }
             });
             inputPanel.add(convertButton);

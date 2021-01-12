@@ -1,10 +1,11 @@
 package ru.academits.tunkenov.temperature.model;
 
-import ru.academits.tunkenov.temperature.model.scales.TemperatureScales;
+import ru.academits.tunkenov.temperature.model.scales.TemperatureScale;
 
-public class TemperatureConverter implements Converter {
-    @Override
-    public double temperatureConverter(TemperatureScales inputTemperatureScale, TemperatureScales outputTemperatureScale, double temperature) {
-        return outputTemperatureScale.convertCelsiusToCurrent(inputTemperatureScale.convertToCelsius(temperature));
-    }
+import java.util.List;
+
+public interface TemperatureConverter {
+    double convertTemperature(int inputTemperatureScale, int outputTemperatureScale, double temperature);
+
+    List<TemperatureScale> getScalesList();
 }

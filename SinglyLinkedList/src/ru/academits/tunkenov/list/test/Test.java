@@ -41,6 +41,9 @@ public class Test {
         System.out.println("remove item 1 = " + numbers1.remove(1));
         System.out.println("numbers1: " + numbers1);
 
+        System.out.println(numbers1.remove(null));
+        System.out.println("numbers1: " + numbers1);
+
         SinglyLinkedList<Double> numbers3 = new SinglyLinkedList<>();
         System.out.println("numbers3: " + numbers3);
     }

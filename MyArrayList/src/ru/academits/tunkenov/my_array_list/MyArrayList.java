@@ -132,7 +132,7 @@ public class MyArrayList<E> implements List<E> {
         int index = indexOf(object);
 
         if (index > -1) {
-            remove(indexOf(object));
+            remove(index);
             return true;
         }
 
@@ -192,17 +192,17 @@ public class MyArrayList<E> implements List<E> {
             return false;
         }
 
-        boolean check = false;
+        boolean isChanged = false;
 
         for (int i = 0; i < size; i++) {
             if (collection.contains(items[i])) {
                 remove(i);
                 i--;
-                check = true;
+                isChanged = true;
             }
         }
 
-        return check;
+        return isChanged;
     }
 
     @Override
@@ -210,22 +210,25 @@ public class MyArrayList<E> implements List<E> {
         if (collection == null) {
             throw new NullPointerException("Collection is null");
         }
+        if (size == 0) {
+            return false;
+        }
         if (collection.isEmpty()) {
             clear();
             return true;
         }
 
-        boolean check = false;
+        boolean isChanged = false;
 
         for (int i = 0; i < size; i++) {
             if (!collection.contains(items[i])) {
                 remove(i);
                 i--;
-                check = true;
+                isChanged = true;
             }
         }
 
-        return check;
+        return isChanged;
     }
 
     @Override
@@ -276,7 +279,7 @@ public class MyArrayList<E> implements List<E> {
 
         E removedItem = items[index];
 
-        if (index != --size) {
+        if (index != size) {
             System.arraycopy(items, index + 1, items, index, size - index);
         }
 

@@ -1,7 +1,7 @@
 package ru.academits.tunkenov.temperature.model.scales;
 
 public class KelvinScale implements TemperatureScale {
-    private final static String name = "Кельвин";
+    private final static String NAME = "Кельвин";
 
     @Override
     public double convertToCelsius(double currentTemperature) {
@@ -15,6 +15,6 @@ public class KelvinScale implements TemperatureScale {
 
     @Override
     public String getName() {
-        return name;
+        return NAME;
     }
 }

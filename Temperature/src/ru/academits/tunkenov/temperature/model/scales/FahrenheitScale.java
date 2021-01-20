@@ -1,7 +1,7 @@
 package ru.academits.tunkenov.temperature.model.scales;
 
 public class FahrenheitScale implements TemperatureScale {
-    private final static String name = "Градус Фаренгейт";
+    private final static String NAME = "Градус Фаренгейт";
 
     @Override
     public double convertToCelsius(double currentTemperature) {
@@ -15,6 +15,6 @@ public class FahrenheitScale implements TemperatureScale {
 
     @Override
     public String getName() {
-        return name;
+        return NAME;
     }
 }

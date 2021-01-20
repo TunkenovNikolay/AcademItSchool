@@ -1,11 +1,7 @@
 package ru.academits.tunkenov.temperature.model.scales;
 
 public class CelsiusScale implements TemperatureScale {
-    private final String name;
-
-    public CelsiusScale(String name) {
-        this.name = name;
-    }
+    private final static String name = "Градусы Цельсия";
 
     @Override
     public double convertToCelsius(double currentTemperature) {

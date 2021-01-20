@@ -12,8 +12,8 @@ public class Converter implements TemperatureConverter {
     }
 
     @Override
-    public double convertTemperature(int inputTemperatureScale, int outputTemperatureScale, double temperature) {
-        return scalesList.get(outputTemperatureScale).convertFromCelsius(scalesList.get(inputTemperatureScale).convertToCelsius(temperature));
+    public double convertTemperature(int inputTemperatureScaleIndex, int outputTemperatureScaleIndex, double temperature) {
+        return scalesList.get(outputTemperatureScaleIndex).convertFromCelsius(scalesList.get(inputTemperatureScaleIndex).convertToCelsius(temperature));
     }
 
     @Override

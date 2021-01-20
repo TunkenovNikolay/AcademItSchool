@@ -1,11 +1,7 @@
 package ru.academits.tunkenov.temperature.model.scales;
 
 public class KelvinScale implements TemperatureScale {
-    private final String name;
-
-    public KelvinScale(String name) {
-        this.name = name;
-    }
+    private final static String name = "Кельвин";
 
     @Override
     public double convertToCelsius(double currentTemperature) {

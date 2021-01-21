@@ -46,5 +46,14 @@ public class Test {
 
         SinglyLinkedList<Double> numbers3 = new SinglyLinkedList<>();
         System.out.println("numbers3: " + numbers3);
+
+        System.out.println("data item 1 = " + numbers1.getFirst());
+
+        System.out.println("numbers1: " + numbers1);
+
+        numbers1.reverse();
+
+        System.out.println("numbers1 reverse: " + numbers1);
+        System.out.println("items count numbers1 = " + numbers1.getCount());
     }
 }

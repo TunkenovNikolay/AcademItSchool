@@ -160,9 +160,8 @@ public class SinglyLinkedList<T> {
         ListItem<T> copyItem = new ListItem<>(head.getData());
         copyList.head = copyItem;
 
-        for (ListItem<T> currentItem = head.getNext(); currentItem != null; currentItem = currentItem.getNext()) {
-            copyItem.setNext(currentItem);
-            copyItem = currentItem;
+        for (ListItem<T> currentItem = head.getNext(); currentItem != null; currentItem = currentItem.getNext(), copyItem = copyItem.getNext()) {
+            copyItem.setNext(new ListItem<>(currentItem.getData()));
         }
 
         copyList.count = count;

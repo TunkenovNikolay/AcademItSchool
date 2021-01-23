@@ -19,15 +19,22 @@ public class Test {
         numbers2.add(22);
         numbers2.add(77);
         numbers2.add(103);
+        numbers2.add(10);
+        numbers2.add(11);
 
-        /*System.out.println("Список numbers1 = " + numbers1);
+        numbers2.remove(9);
+        System.out.println("Список numbers2 = " + numbers2);
+
+        System.out.println("Список numbers1 = " + numbers1);
         numbers1.addAll(numbers2);
         System.out.println("Список numbers1 = " + numbers1);
 
+        System.out.println("Список numbers2 = " + numbers2);
+
         numbers1.retainAll(numbers2);
         System.out.println("Список numbers1 = " + numbers1);
-        System.out.println("Список numbers2 = " + numbers2);*/
+        System.out.println("Список numbers2 = " + numbers2);
         numbers1.addAll(1, numbers2);
-        System.out.println(numbers1);
+        System.out.println("Список numbers1 = " + numbers1);
     }
 }

@@ -279,13 +279,14 @@ public class MyArrayList<E> implements List<E> {
 
         E removedItem = items[index];
 
+        size--;
+
         if (index != size) {
             System.arraycopy(items, index + 1, items, index, size - index);
         }
 
         items[size] = null;
 
-        size--;
         modCount++;
 
         return removedItem;

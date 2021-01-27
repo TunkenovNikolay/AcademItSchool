@@ -1,9 +1,11 @@
 package ru.academits.tunkenov.temperature.view;
 
 import ru.academits.tunkenov.temperature.model.TemperatureConverter;
+import ru.academits.tunkenov.temperature.model.scales.TemperatureScale;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class DesktopView implements View {
     private final TemperatureConverter converter;
@@ -44,22 +46,24 @@ public class DesktopView implements View {
             temperatureLabel.setFont(celsiusLabel.getFont().deriveFont(12.0f));
             resultPanel.add(temperatureLabel);
 
-            String[] scalesName = new String[converter.getScalesList().size()];
+            List<TemperatureScale> scalesList = converter.getScalesList();
 
-            for (int i = 0; i < converter.getScalesList().size(); i++) {
-                scalesName[i] = converter.getScalesList().get(i).getName();
+            String[] scalesNames = new String[scalesList.size()];
+
+            for (int i = 0; i < scalesList.size(); i++) {
+                scalesNames[i] = scalesList.get(i).getName();
             }
 
             JLabel sourceScale = new JLabel("Исходная шкала:");
             radioButtonPanel.add(sourceScale);
 
-            JLabel sourceScale1 = new JLabel("Результирующая шкала:");
-            radioButtonPanel.add(sourceScale1);
+            JLabel resultScale = new JLabel("Результирующая шкала:");
+            radioButtonPanel.add(resultScale);
 
-            JComboBox<String> inputComboBox = new JComboBox<>(scalesName);
+            JComboBox<String> inputComboBox = new JComboBox<>(scalesNames);
             radioButtonPanel.add(inputComboBox);
 
-            JComboBox<String> outputComboBox = new JComboBox<>(scalesName);
+            JComboBox<String> outputComboBox = new JComboBox<>(scalesNames);
             radioButtonPanel.add(outputComboBox);
 
             JButton convertButton = new JButton("Перевести температуру");

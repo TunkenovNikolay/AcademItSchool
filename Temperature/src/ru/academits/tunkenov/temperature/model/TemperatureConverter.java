@@ -5,7 +5,7 @@ import ru.academits.tunkenov.temperature.model.scales.TemperatureScale;
 import java.util.List;
 
 public interface TemperatureConverter {
-    double convertTemperature(int inputTemperatureScale, int outputTemperatureScale, double temperature);
+    double convertTemperature(int inputTemperatureScaleIndex, int outputTemperatureScaleIndex, double temperature);
 
     List<TemperatureScale> getScalesList();
 }
